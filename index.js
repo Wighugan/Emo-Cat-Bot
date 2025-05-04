@@ -30,11 +30,10 @@ client.on('messageCreate', async message => {
   //join command
   if (message.content === 'wjoin') {
     if (!voiceChannel) return message.reply('⚠️ Bạn phải vào voice trước.');
-
-    //if bot already in voice
-    if (connection && connection.joinConfig.channelId === voiceChannel.id) {
-      return message.reply('✅ Bot đã có mặt trong voice channel.');
-    }
+      //if bot already in voice
+      if (connection && connection.joinConfig.channelId === voiceChannel.id) {
+        return message.reply('✅ Bot đã có mặt trong voice channel.');
+      }
 
     connection = joinVoiceChannel({
       channelId: voiceChannel.id,
@@ -53,10 +52,26 @@ client.on('messageCreate', async message => {
     }
 
     return;
+  } 
+  //leave command
+if (message.content === 'wleave') {
+  if (connection) {
+    connection.destroy();
+    connection = null;
+    player = null;
+    return message.reply('👋 Bot đã rời voice channel.');
+  } else {
+      return message.reply('❗ Bot chưa ở trong voice channel nào.');
   }
+}
 
   //if user and bot in one voice
-  if (voiceChannel && connection && connection.joinConfig.channelId === voiceChannel.id) {
+  if (
+    voiceChannel &&
+    connection &&
+    connection.joinConfig.channelId === voiceChannel.id &&
+    message.channel.id === voiceChannel.id // 💬 Chat được gửi trong voice channel chat
+  ) {
     const text = message.content;
     const url = googleTTS.getAudioUrl(text, {
       lang: 'vi',
