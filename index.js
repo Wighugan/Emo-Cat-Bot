@@ -70,7 +70,7 @@ if (message.content === 'wleave') {
     voiceChannel &&
     connection &&
     connection.joinConfig.channelId === voiceChannel.id &&
-    message.channel.id === voiceChannel.id // 💬 Chat được gửi trong voice channel chat
+    message.channel.id === voiceChannel.id //make sure only read chat in voice channel
   ) {
     const text = message.content;
     const url = googleTTS.getAudioUrl(text, {
