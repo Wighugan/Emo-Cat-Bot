@@ -27,10 +27,9 @@ client.on('messageCreate', async message => {
 
   const voiceChannel = message.member?.voice?.channel;
 
-  //join command
   if (message.content === 'wjoin') {
     if (!voiceChannel) return message.reply('⚠️ Bạn phải vào voice trước.');
-      //if bot already in voice
+
       if (connection && connection.joinConfig.channelId === voiceChannel.id) {
         return message.reply('✅ Bot đã có mặt trong voice channel.');
       }
@@ -53,7 +52,7 @@ client.on('messageCreate', async message => {
 
     return;
   } 
-  //leave command
+  
 if (message.content === 'wleave') {
   if (connection) {
     connection.destroy();
@@ -65,12 +64,11 @@ if (message.content === 'wleave') {
   }
 }
 
-  //if user and bot in one voice
   if (
     voiceChannel &&
     connection &&
     connection.joinConfig.channelId === voiceChannel.id &&
-    message.channel.id === voiceChannel.id //make sure only read chat in voice channel
+    message.channel.id === voiceChannel.id 
   ) {
     const text = message.content;
     const url = googleTTS.getAudioUrl(text, {
@@ -93,7 +91,6 @@ if (message.content === 'wleave') {
   }
 });
 
-//message when user type wlc
 client.on('messageCreate', message => {
   if (message.content === 'wlc') {
     message.channel.send('<:saygex1:1348950856564871188>  Whale Cum Rengu Official  <:saygex2:1348950859140038666>');
